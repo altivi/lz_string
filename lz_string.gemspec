@@ -3,6 +3,7 @@ require File.expand_path("../lib/lz_string/version", __FILE__)
 Gem::Specification.new do |s|
   s.name        = "lz_string"
   s.version     = LZString::VERSION
+  s.licenses    = ["MIT"]
   s.authors     = ["Altivi"]
   s.email       = ["altivi.prog@gmail.com"]
   s.homepage    = "https://github.com/Altivi/lz-string"
