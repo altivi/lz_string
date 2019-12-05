@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="rspec" tests="9" skipped="0" failures="0" errors="0" time="0.008102" timestamp="2019-12-05T02:49:33+02:00" hostname="unknown.local">
+<properties>
+<property name="seed" value="21500"/>
+</properties>
+<testcase classname="spec.lib.lz_string_spec" name="LZString.compress compresses string" file="./spec/lib/lz_string_spec.rb" time="0.001053"></testcase>
+<testcase classname="spec.lib.lz_string_spec" name="LZString.decompress decompresses string" file="./spec/lib/lz_string_spec.rb" time="0.000210"></testcase>
+<testcase classname="spec.lib.lz_string.utf16_spec" name="LZString::UTF16.decompress decompresses string" file="./spec/lib/lz_string/utf16_spec.rb" time="0.000415"></testcase>
+<testcase classname="spec.lib.lz_string.utf16_spec" name="LZString::UTF16.compress compresses string" file="./spec/lib/lz_string/utf16_spec.rb" time="0.000470"></testcase>
+<testcase classname="spec.lib.lz_string.base64_spec" name="LZString::Base64.compress when res.length == 2 compresses string" file="./spec/lib/lz_string/base64_spec.rb" time="0.000168"></testcase>
+<testcase classname="spec.lib.lz_string.base64_spec" name="LZString::Base64.compress when res.length == 1 compresses string" file="./spec/lib/lz_string/base64_spec.rb" time="0.000175"></testcase>
+<testcase classname="spec.lib.lz_string.base64_spec" name="LZString::Base64.compress when res.length == 3 compresses string" file="./spec/lib/lz_string/base64_spec.rb" time="0.000198"></testcase>
+<testcase classname="spec.lib.lz_string.base64_spec" name="LZString::Base64.compress when res.length == 0 compresses string" file="./spec/lib/lz_string/base64_spec.rb" time="0.000210"></testcase>
+<testcase classname="spec.lib.lz_string.base64_spec" name="LZString::Base64.decompress decompresses string" file="./spec/lib/lz_string/base64_spec.rb" time="0.001354"></testcase>
+</testsuite>

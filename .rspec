@@ -1,0 +1,8 @@
+--color
+--format documentation
+--format RspecJunitFormatter
+--out rspec.xml
+--profile
+--backtrace
+--order random
+--require spec_helper
