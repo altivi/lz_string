@@ -10,4 +10,13 @@ Gem::Specification.new do |s|
   s.summary     = "Ruby implementation of LZ-String compression algorithm"
   s.description = s.summary
   s.files       = Dir["{lib}/**/*", "README.md"]
+
+  s.add_development_dependency "rake"
+  s.add_development_dependency "yard"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec_junit_formatter"
+  s.add_development_dependency "pry"
+  s.add_development_dependency "colorize"
+  s.add_development_dependency "simplecov"
+  s.add_development_dependency "simplecov-rcov-text"
 end
