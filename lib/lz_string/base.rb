@@ -5,7 +5,7 @@ module LZString
     # @param bits_per_char     [Integer]
     # @param get_char_from_int [Integer]
     def self.compress(uncompressed, bits_per_char, get_char_from_int)
-      return "" if uncompressed.nil?
+      return "" if uncompressed.nil? || uncompressed.empty?
 
       i, value, ii = nil
       context_dictionary = {}
@@ -21,8 +21,8 @@ module LZString
       context_data_val = 0
       context_data_position = 0
 
-      for ii in 0...uncompressed.length do
-        context_c = uncompressed[ii]
+      uncompressed.each_char do |c|
+        context_c = c
 
         if (!context_dictionary.has_key?(context_c))
           context_dictionary[context_c] = context_dict_size
@@ -116,7 +116,7 @@ module LZString
           # Add wc to the dictionary.
           context_dictionary[context_wc] = context_dict_size
           context_dict_size += 1
-          context_w = context_c.to_s
+          context_w = context_c
         end
       end
 
@@ -231,7 +231,7 @@ module LZString
     # @param length         [Integer]
     # @param reset_value    [Integer]
     # @param get_next_value [Proc]
-    def self.decompress(length, reset_value, get_next_value, encoding = "ASCII-8BIT")
+    def self.decompress(length, reset_value, get_next_value, encoding = "UTF-8")
       dictionary = [0, 1, 2]
       enlarge_in = 4
       dict_size = 4
@@ -279,7 +279,7 @@ module LZString
         c = bits.chr(encoding)
       when 1
         bits = 0
-        maxpower = 2*16
+        maxpower = 2**16
         power = 1
         while (power != maxpower)
           resb = data[:val] & data[:position]

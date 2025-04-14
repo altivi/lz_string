@@ -15,7 +15,7 @@ module LZString
 
   # @param compressed [String]
   def self.decompress(compressed)
-    return "" if compressed.nil?
+    return "" if compressed.nil? || compressed.empty?
     return nil if compressed == ""
 
     LZString::Base.decompress(compressed.length, 32768, lambda { |index| compressed[index].ord })
