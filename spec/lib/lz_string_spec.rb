@@ -7,8 +7,12 @@ describe LZString do
       expect(described_class.compress(text)).to eq compressed
     end
 
-    it "compresses emoji" do
-      expect(described_class.compress("❤")).to eq "覹က"
+    it "compresses Basic Multilingual Plane (BMP) emoji" do
+      expect(described_class.compress("⛩️")).to eq "ꗙ➃切"
+    end
+
+    it "compresses Supplementary Planes emoji" do
+      expect(described_class.compress("🀄")).to eq "輆�"
     end
   end
 
@@ -19,6 +23,10 @@ describe LZString do
 
     it "decompresses Unicode" do
       expect(described_class.decompress(described_class.compress("❤"))).to eq "❤"
+    end
+
+    it "decompresses Supplementary Planes emoji" do
+      expect(described_class.compress("🀄")).to eq "🀄"
     end
   end
 end

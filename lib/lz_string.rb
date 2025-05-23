@@ -10,7 +10,9 @@ module LZString
   def self.compress(input)
     return "" if input.nil?
 
-    LZString::Base.compress(input, 16, lambda { |a| a.chr("UTF-8") })
+    result = LZString::Base.compress(input, 16, lambda { |a| [a].pack('v') })
+    # Convert to binary string first, then to UTF-8
+    result.b.force_encoding('UTF-16LE').encode('UTF-8', invalid: :replace, undef: :replace)
   end
 
   # @param compressed [String]
