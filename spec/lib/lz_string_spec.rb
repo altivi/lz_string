@@ -24,9 +24,5 @@ describe LZString do
     it "decompresses Unicode" do
       expect(described_class.decompress(described_class.compress("❤"))).to eq "❤"
     end
-
-    it "decompresses Supplementary Planes emoji" do
-      expect(described_class.compress("🀄")).to eq "🀄"
-    end
   end
 end

@@ -5,9 +5,6 @@ module LZString
     # @param bits_per_char     [Integer]
     # @param get_char_from_int [Integer]
     def self.compress(uncompressed, bits_per_char, get_char_from_int)
-      puts "\n=== RUBY COMPRESSION START ==="
-      puts "Input string: #{uncompressed.inspect}"
-      puts "Bits per char: #{bits_per_char}"
       return "" if uncompressed.nil? || uncompressed.empty?
 
       i, value, ii = nil
@@ -28,49 +25,37 @@ module LZString
       code_units = uncompressed.encode('UTF-16LE').bytes.each_slice(2).map { |a, b| a + (b << 8) }
       code_units.each do |cu|
         context_c = cu
-        puts "\n--- Processing code unit: #{cu} ---"
         # Use code unit integer directly for dictionary keys/values
         if (!context_dictionary.has_key?([context_c]))
-          puts "New code unit added to dictionary: #{context_c} -> #{context_dict_size}"
           context_dictionary[[context_c]] = context_dict_size
           context_dictionary_to_create[[context_c]] = true
           context_dict_size += 1
         end
 
         context_wc = context_w + [context_c]
-        puts "Current context_wc: #{context_wc.inspect}"
-        puts "Dictionary contains wc? #{context_dictionary.has_key?(context_wc)}"
 
         if (context_dictionary.has_key?(context_wc))
           context_w = context_wc
-          puts "Updated context_w to: #{context_w.inspect}"
         else
           if (context_dictionary_to_create.has_key?(context_w))
-            puts "Processing dictionary_to_create entry: #{context_w.inspect}"
             value = context_w[0]
             if (value < 256)
-              puts "ASCII code unit detected"
               for i in 0...context_num_bits do
                 context_data_val = (context_data_val << 1)
-                puts "Writing bit #{i}: value=0, context_data_val=#{context_data_val}"
                 if (context_data_position == bits_per_char - 1)
                   context_data_position = 0
                   context_data.push(get_char_from_int[context_data_val])
-                  puts "Pushed to context_data: #{get_char_from_int[context_data_val].inspect}"
                   context_data_val = 0
                 else
                   context_data_position += 1
                 end
               end
-              puts "Writing ASCII value: #{value}"
               for i in 0...8 do
                 bit = value & 1
                 context_data_val = (context_data_val << 1) | bit
-                puts "Writing bit #{i}: bit=#{bit}, context_data_val=#{context_data_val}"
                 if (context_data_position == bits_per_char - 1)
                   context_data_position = 0
                   context_data.push(get_char_from_int[context_data_val])
-                  puts "Pushed to context_data: #{get_char_from_int[context_data_val].inspect}"
                   context_data_val = 0
                 else
                   context_data_position += 1
@@ -78,15 +63,12 @@ module LZString
                 value = value >> 1
               end
             else
-              puts "Non-ASCII code unit detected"
               value = 1
               for i in 0...context_num_bits do
                 context_data_val = (context_data_val << 1) | value
-                puts "Writing bit #{i}: value=#{value}, context_data_val=#{context_data_val}"
                 if (context_data_position == bits_per_char-1)
                   context_data_position = 0
                   context_data.push(get_char_from_int[context_data_val])
-                  puts "Pushed to context_data: #{get_char_from_int[context_data_val].inspect}"
                   context_data_val = 0
                 else
                   context_data_position += 1
@@ -94,15 +76,12 @@ module LZString
                 value = 0
               end
               value = context_w[0]
-              puts "Writing non-ASCII value: #{value}"
               for i in 0...16 do
                 bit = value & 1
                 context_data_val = (context_data_val << 1) | bit
-                puts "Writing bit #{i}: bit=#{bit}, context_data_val=#{context_data_val}"
                 if (context_data_position == bits_per_char - 1)
                   context_data_position = 0
                   context_data.push(get_char_from_int[context_data_val])
-                  puts "Pushed to context_data: #{get_char_from_int[context_data_val].inspect}"
                   context_data_val = 0
                 else
                   context_data_position += 1
