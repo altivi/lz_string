@@ -9,7 +9,9 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/Altivi/lz-string"
   s.summary     = "Ruby implementation of LZ-String compression algorithm"
   s.description = s.summary
-  s.files       = Dir["{lib}/**/*", "README.md"]
+  s.files       = Dir["{lib,exe}/**/*", "README.md"]
+  s.bindir      = "exe"
+  s.executables = ["lz_string"]
 
   s.add_development_dependency "rake"
   s.add_development_dependency "yard"

@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require "lz_string/cli"
+
+exit LZString::CLI.run(ARGV)
