@@ -9,16 +9,19 @@ module LZString
     end
 
     # @param compressed [String]
+    # @return [String, nil] UTF-8
     def self.decompress(compressed)
-      return "" if (compressed == nil)
-      return nil if (compressed == "")
+      LZString::Base.to_utf8(decompress_to_utf16le(compressed))
+    end
 
-      LZString::Base.decompress(
-        compressed.length,
-        16384,
-        lambda { |index| compressed[index].ord - 32 },
-        "UTF-8"
-      )
+    # @param compressed [String]
+    # @return [String, nil] UTF-16LE, see LZString.decompress_to_utf16le
+    def self.decompress_to_utf16le(compressed)
+      return "" if (compressed == nil)
+      return nil if compressed.empty?
+
+      values = LZString::Base.code_units(compressed)
+      LZString::Base.decompress(values.length, 16384, lambda { |index| values[index] ? values[index] - 32 : 0 })
     end
   end
 end

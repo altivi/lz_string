@@ -12,5 +12,9 @@ describe LZString::UriSafe do
     it "decompresses string" do
       expect(described_class.decompress(compressed)).to eq text
     end
+
+    it "reads a space as +, without changing the given string" do
+      expect(described_class.decompress("N4IghiBcKDwbht yAvkA".freeze)).to eq '{"a":"🎶"}'
+    end
   end
 end
