@@ -5,7 +5,7 @@ describe "Same results as JavaScript lz-string" do
   results = JSON.parse(File.read(File.expand_path("../../fixtures/js_results.json", __dir__)))
   formats = {
     "raw" => LZString, "base64" => LZString::Base64, "uri" => LZString::UriSafe,
-    "utf16" => LZString::UTF16,
+    "utf16" => LZString::UTF16, "uint8array" => LZString::Uint8Array,
   }
 
   # Bytes come as hex. A list of numbers is a string of UTF-16 code units,
@@ -45,6 +45,29 @@ describe "Same results as JavaScript lz-string" do
         end
         expect(wrong.map { |result| result["input"] }).to eq []
       end
+    end
+  end
+
+  describe LZString::Custom do
+    it "compresses #{results["custom"].size} strings like JS" do
+      wrong = results["custom"].reject do |result|
+        LZString::Custom.compress(from_json(result["input"]), result["dictionary"]) == result["output"]
+      end
+      expect(wrong.map { |result| result["input"] }).to eq []
+    end
+
+    it "decompresses what JS compressed" do
+      wrong = results["custom"].reject do |result|
+        outcome { LZString::Custom.decompress(result["output"], result["dictionary"]) } == result["decompressed"]
+      end
+      expect(wrong.map { |result| result["input"] }).to eq []
+    end
+
+    it "decompresses #{results["decompress"]["custom"].size} broken strings like JS" do
+      wrong = results["decompress"]["custom"].reject do |result|
+        outcome { LZString::Custom.decompress(result["input"], result["dictionary"]) } == result.slice("output", "error")
+      end
+      expect(wrong.map { |result| result["input"] }).to eq []
     end
   end
 end

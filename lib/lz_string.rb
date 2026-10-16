@@ -1,5 +1,7 @@
 require "lz_string/base"
 require "lz_string/base64"
+require "lz_string/custom"
+require "lz_string/uint8_array"
 require "lz_string/urisafe"
 require "lz_string/utf16"
 require "lz_string/version"
