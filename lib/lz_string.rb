@@ -37,4 +37,46 @@ module LZString
     values = LZString::Base.code_units(compressed)
     LZString::Base.decompress(values.length, 32768, lambda { |index| values[index] || 0 })
   end
+
+  # The other functions of JS lz-string, by their JS names.
+
+  def self.compress_to_base64(input)
+    LZString::Base64.compress(input)
+  end
+
+  def self.decompress_from_base64(compressed)
+    LZString::Base64.decompress(compressed)
+  end
+
+  def self.compress_to_encoded_uri_component(input)
+    LZString::UriSafe.compress(input)
+  end
+
+  def self.decompress_from_encoded_uri_component(compressed)
+    LZString::UriSafe.decompress(compressed)
+  end
+
+  def self.compress_to_utf16(input)
+    LZString::UTF16.compress(input)
+  end
+
+  def self.decompress_from_utf16(compressed)
+    LZString::UTF16.decompress(compressed)
+  end
+
+  def self.compress_to_uint8_array(input)
+    LZString::Uint8Array.compress(input)
+  end
+
+  def self.decompress_from_uint8_array(compressed)
+    LZString::Uint8Array.decompress(compressed)
+  end
+
+  def self.compress_to_custom(input, dictionary)
+    LZString::Custom.compress(input, dictionary)
+  end
+
+  def self.decompress_from_custom(compressed, dictionary)
+    LZString::Custom.decompress(compressed, dictionary)
+  end
 end

@@ -57,4 +57,24 @@ describe LZString do
       expect(described_class.decompress(described_class.compress(result))).to eq "�"
     end
   end
+
+  describe "JS function names" do
+    let(:text) { "Hello, 🎶 world!" }
+
+    it "compresses like the classes" do
+      expect(described_class.compress_to_base64(text)).to eq LZString::Base64.compress(text)
+      expect(described_class.compress_to_encoded_uri_component(text)).to eq LZString::UriSafe.compress(text)
+      expect(described_class.compress_to_utf16(text)).to eq LZString::UTF16.compress(text)
+      expect(described_class.compress_to_uint8_array(text)).to eq LZString::Uint8Array.compress(text)
+      expect(described_class.compress_to_custom(text, "abc")).to eq LZString::Custom.compress(text, "abc")
+    end
+
+    it "decompresses what they compress" do
+      expect(described_class.decompress_from_base64(described_class.compress_to_base64(text))).to eq text
+      expect(described_class.decompress_from_encoded_uri_component(described_class.compress_to_encoded_uri_component(text))).to eq text
+      expect(described_class.decompress_from_utf16(described_class.compress_to_utf16(text))).to eq text
+      expect(described_class.decompress_from_uint8_array(described_class.compress_to_uint8_array(text))).to eq text
+      expect(described_class.decompress_from_custom(described_class.compress_to_custom(text, "abc"), "abc")).to eq text
+    end
+  end
 end
