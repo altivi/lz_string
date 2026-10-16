@@ -6,12 +6,20 @@ Gem::Specification.new do |s|
   s.licenses    = ["MIT"]
   s.authors     = ["Altivi"]
   s.email       = ["altivi.prog@gmail.com"]
-  s.homepage    = "https://github.com/Altivi/lz-string"
+  s.homepage    = "https://github.com/altivi/lz_string"
   s.summary     = "Ruby implementation of LZ-String compression algorithm"
-  s.description = s.summary
-  s.files       = Dir["{lib,exe}/**/*", "README.md"]
+  s.description = "A full Ruby port of lz-string (JavaScript), with the same results for every input, emoji too: " \
+                  "raw, Base64, URI-safe, UTF-16, Uint8Array and custom alphabets, and the same command line tool. " \
+                  "It passes the test suite of lz-string itself."
+  s.metadata    = {
+    "source_code_uri" => "https://github.com/altivi/lz_string",
+    "changelog_uri" => "https://github.com/altivi/lz_string/blob/master/CHANGELOG.md",
+    "bug_tracker_uri" => "https://github.com/altivi/lz_string/issues",
+  }
+  s.files       = Dir["{lib,exe}/**/*", "README.md", "CHANGELOG.md", "LICENSE"]
   s.bindir      = "exe"
   s.executables = ["lz_string"]
+  s.required_ruby_version = ">= 2.7"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "yard"
