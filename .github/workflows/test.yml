@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  specs:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ["2.7", "3.0", "3.1", "3.2", "3.3", "3.4", "4.0"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - run: bundle exec rake
+
+  # The test suite of JS lz-string itself, run against the lz_string command.
+  lz-string-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: pieroxy/lz-string
+          path: lz-string
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+      - name: test.sh
+        working-directory: lz-string/test
+        run: |
+          cat > profiles/lz_string.sh <<EOF
+          optDescription="The lz_string Ruby gem"
+          optCommand=ruby
+          optArgs="-I$GITHUB_WORKSPACE/lib $GITHUB_WORKSPACE/exe/lz_string"
+          optDecompress="-d"
+          optEncoder="-e"
+          optEncoders="base64,encodeduri,raw,uint8array,utf16"
+          optOutput="-o"
+          optQuiet="-q"
+          EOF
+          bash ./test.sh lz_string
